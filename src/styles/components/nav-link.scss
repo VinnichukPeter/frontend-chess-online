@@ -1,0 +1,14 @@
+.nav-link{
+  padding: 15px;
+
+  font-size: 20px;
+  color: var(--theard-color);
+  text-decoration: none;
+  transition: 0.5s;
+  text-transform: uppercase;
+
+  &:hover{
+    font-size: 25px;
+    padding: 5px 8px;
+  }
+}

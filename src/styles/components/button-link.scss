@@ -1,0 +1,28 @@
+.button-link{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+
+  height: 35px;
+  width: 100px;
+  margin: 5px;
+  padding: 0 8px;
+  font-size: 20px;
+
+  border: 2px solid var(--theard-color);
+
+  transition: 0.5s ease-in-out;
+
+
+  &:hover {
+    font-size: 25px;
+  }
+
+  .link {
+    color: var(--theard-color);
+    text-decoration: none;
+    text-transform: uppercase;
+
+  }
+}
