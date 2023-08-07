@@ -7,15 +7,20 @@ import SignIn from "./layouts/SignIn";
 import SignUp from "./layouts/SignUp";
 import Base from "./pages/Base";
 import Home from "./layouts/Home";
+import About from "./layouts/About";
+import News from "./layouts/News";
 
 function App() {
     return (
         <div className="Background">
             <BrowserRouter>
                 <Routes>
-
                     <Route path={"/"} element={<Base/>}>
                         <Route path={"home"} element={<Home/>}/>
+                        <Route path={"about"} element={<About/>}/>
+                        <Route path={"news"} element={<News/>}/>
+
+                        <Route path={""} element={<Navigate to={"/home"}/>}/>
                     </Route>
 
 
