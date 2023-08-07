@@ -1,0 +1,24 @@
+.recommendation{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  position: relative;
+
+  min-height: 200px;
+  width: 100%;
+
+  background: var(--second-color);
+
+  margin-bottom: 5px;
+
+  .image-container{
+    position: absolute;
+    left: 0;
+  }
+
+  .text-container{
+    position: absolute;
+    left: 220px;
+  }
+}

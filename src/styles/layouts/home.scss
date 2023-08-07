@@ -1,0 +1,53 @@
+.home{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  height: 100%;
+  width: 100%;
+
+
+  .game-block{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 90px;
+    width: calc(88%);
+    padding: 0 20px;
+    margin-top: 80px;
+
+    box-shadow: var(--fourth-color) 4px 0 20px 6px;
+    background: #282d32;
+  }
+
+  .recommendations-block{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    width: calc(88% + 40px);
+    height: 70%;
+
+    margin-top: 40px;
+
+    .recommendations{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+
+      height: 90%;
+      width: 49%;
+
+      box-shadow: var(--fourth-color) 4px 0 20px 6px;
+      background: #282d32;
+
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+  }
+}

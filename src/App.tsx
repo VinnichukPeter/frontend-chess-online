@@ -6,6 +6,7 @@ import Authorization from "./pages/Authorization";
 import SignIn from "./layouts/SignIn";
 import SignUp from "./layouts/SignUp";
 import Base from "./pages/Base";
+import Home from "./layouts/Home";
 
 function App() {
     return (
@@ -14,7 +15,7 @@ function App() {
                 <Routes>
 
                     <Route path={"/"} element={<Base/>}>
-
+                        <Route path={"home"} element={<Home/>}/>
                     </Route>
 
 
