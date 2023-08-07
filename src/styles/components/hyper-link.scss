@@ -1,0 +1,11 @@
+.hyper-link {
+  padding: 10px;
+  transition: 0.3s;
+  font-size: 18px;
+
+  color: var(--theard-color);
+
+  &:hover {
+    opacity: 0.7;
+  }
+}

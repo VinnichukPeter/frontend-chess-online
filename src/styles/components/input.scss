@@ -1,0 +1,62 @@
+.input-box {
+  position: relative;
+
+  width: 300px;
+
+  margin-top: 35px;
+
+
+  .input {
+    position: relative;
+
+    width: 90%;
+    padding: 20px 10px 10px;
+    font-size: 20px;
+    letter-spacing: 0.05em;
+
+    background: transparent;
+    color: #1c1c1c;
+
+    transition: 0.5s;
+
+    z-index: 10;
+
+    &:valid ~ span, &:focus ~ span {
+      font-size: 15px;
+      transform: translateY(-40px);
+
+      color: var(--text-color);
+    }
+
+    &:valid ~ i, &:focus ~ i {
+      height: 40px;
+    }
+  }
+
+  span {
+    position: absolute;
+    pointer-events: none;
+
+    left: 0;
+    padding: 20px 0 10px;
+    font-size: 20px;
+    letter-spacing: 0.05em;
+    transition: 0.5s;
+
+    color: var(--theard-color);
+  }
+
+  i {
+    position: absolute;
+    overflow: hidden;
+
+    left: 0;
+    bottom: 0;
+    width: 95%;
+    height: 2px;
+
+    transition: 0.5s;
+
+    background: var(--theard-color);
+  }
+}

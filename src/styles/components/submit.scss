@@ -1,0 +1,58 @@
+.submit-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+  cursor: pointer;
+
+  width: 280px;
+  height: 45px;
+  margin: 20px 10px 10px;
+  font-size: 25px;
+  transition: 0.5s ease-in-out;
+
+  color: var(--theard-color);
+  background: var(--first-color);
+
+  &:before, &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--theard-color);
+    transition: 0.5s ease-in-out;
+  }
+
+  &:before {
+    left: 0;
+  }
+
+  &:after {
+    right: 0;
+  }
+
+  &:hover {
+    color: var(--first-color);
+  }
+
+  &:hover:before, &:hover:after {
+    width: 50%;
+  }
+
+  span {
+    position: absolute;
+    z-index: 1;
+  }
+}
+
+@keyframes submit-border {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

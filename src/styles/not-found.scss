@@ -1,0 +1,20 @@
+.not-found{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .title{
+    font-size: 15pc;
+
+    color: var(--text-color);
+  }
+
+  .subTitle{
+    font-size: 4pc;
+    margin-bottom: 3pc;
+    margin-left: 3pc;
+
+    color: var(--text-color);
+  }
+}
