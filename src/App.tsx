@@ -9,6 +9,7 @@ import Base from "./pages/Base";
 import Home from "./layouts/Home";
 import About from "./layouts/About";
 import News from "./layouts/News";
+import Game from "./layouts/Game";
 
 function App() {
     return (
@@ -19,10 +20,10 @@ function App() {
                         <Route path={"home"} element={<Home/>}/>
                         <Route path={"about"} element={<About/>}/>
                         <Route path={"news"} element={<News/>}/>
+                        <Route path={"game"} element={<Game/>}/>
 
                         <Route path={""} element={<Navigate to={"/home"}/>}/>
                     </Route>
-
 
                     <Route path={"/authorization"} element={<Authorization/>}>
                         <Route path={"sign-in"} element={<SignIn/>}/>

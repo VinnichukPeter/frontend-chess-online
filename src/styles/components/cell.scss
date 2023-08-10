@@ -1,0 +1,36 @@
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  width: 12.5%;
+  height: 100%;
+
+  .available {
+    position: absolute;
+
+    height: 40% !important;
+    width: 40% !important;
+    border-radius: 50%;
+
+    background-image: radial-gradient(#e3e1e1, #38a9d1);
+    cursor: pointer;
+  }
+}
+
+.black {
+  background: #3d3d3d;
+}
+
+.white {
+  background: #fcfcfc;
+}
+
+.selected {
+  background-image: radial-gradient(#e3e1e1, #38a9d1) !important;
+}
+
+.enemy {
+  background-image: radial-gradient(#e3e1e1, #d13847);
+}

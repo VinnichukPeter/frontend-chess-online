@@ -1,0 +1,87 @@
+.chessboard-side {
+  width: calc(80vh - 6px);
+  height: calc(80vh - 6px);
+
+  background: #3d3d3d;
+
+  border: 3px solid white;
+
+
+  .vertical-side {
+    width: 100%;
+    height: 100%;
+
+    .side-top, .side-bottom {
+      display: flex;
+      flex-direction: row;
+
+      height: 5%;
+
+      .free {
+        width: 5%;
+      }
+
+      .character {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 3vh;
+
+        width: 11.25%;
+        height: 100%;
+
+        text-transform: uppercase;
+        cursor: default;
+      }
+    }
+
+    .side-top {
+      .character {
+        rotate: 180deg;
+      }
+    }
+
+    .horizontal-side {
+      display: flex;
+      flex-direction: row;
+
+      height: 90%;
+
+      .side-left, .side-right {
+        height: 100%;
+        width: 5%;
+
+
+        .number {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+
+          font-size: 3vh;
+
+          width: 100%;
+          height: 12.5%;
+
+          text-transform: uppercase;
+          cursor: default;
+        }
+      }
+
+      .side-right {
+        .number{
+          rotate: 180deg;
+        }
+      }
+
+      .chessboard-body {
+        width: calc(100% - 6px);
+        height: calc(100% - 6px);
+
+        border: 3px solid white;
+      }
+    }
+  }
+}
