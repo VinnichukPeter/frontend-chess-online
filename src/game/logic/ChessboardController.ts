@@ -7,9 +7,13 @@ class ChessboardController {
     playerColor: boolean;
 
 
-    constructor() {
+    constructor(playerColor: boolean) {
         this.board = new BoardModel();
-        this.playerColor = true;
+        this.playerColor = playerColor;
+    }
+
+    setPlayerColor(playerColor: boolean) {
+        this.playerColor = playerColor;
     }
 
     initCells(): void {
@@ -74,7 +78,7 @@ class ChessboardController {
     }
 
     updateController(): ChessboardController {
-        const newController = new ChessboardController();
+        const newController = new ChessboardController(this.playerColor);
         newController.board.cells = this.board.cells;
         return newController;
     }

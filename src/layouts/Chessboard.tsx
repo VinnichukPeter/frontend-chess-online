@@ -15,6 +15,9 @@ const Chessboard = (props: BoardProps) => {
     const [selectedCell,
         setSelectedCell]
         = useState<CellModel | null>(null);
+    const [turn,
+        setTurn]
+        = useState<boolean>(controller.playerColor);
 
     useEffect(() => {
         highlightCells();
@@ -27,7 +30,7 @@ const Chessboard = (props: BoardProps) => {
 
         } else if (selectedCell && selectedCell === cell) {
             setSelectedCell(null);
-        } else if (cell.piece) {
+        } else if (cell.piece && cell.piece.color === controller.playerColor) {
             setSelectedCell(cell);
         }
     }
@@ -40,6 +43,14 @@ const Chessboard = (props: BoardProps) => {
     function updateBoard() {
         const newController = controller.updateController();
         setController(newController);
+    }
+
+    function youTurn() {
+
+    }
+
+    function enemyTurn() {
+
     }
 
     return (
