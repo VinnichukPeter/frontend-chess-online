@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import "../styles/components/input.scss";
 
 interface InputProps {
@@ -13,7 +13,6 @@ const Input = (props: InputProps) => {
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         props.getterInformation(event.target.value);
-        console.log("test");
     };
 
     return (

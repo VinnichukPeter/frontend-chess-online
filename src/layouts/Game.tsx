@@ -3,7 +3,8 @@ import React, {useEffect, useState} from 'react';
 import ChessboardSide from "./ChessboardSide";
 import Chessboard from "./Chessboard";
 import ChessboardController from "../game/logic/ChessboardController";
-import LapDTO from "../fetchApi/dto/LapDTO";
+import LapDTO from "../api/dto/LapDTO";
+import {GameAPI} from "../api/GameAPI";
 
 const Game = () => {
     const [lap, setLapDTO] = useState(new LapDTO());
@@ -15,13 +16,7 @@ const Game = () => {
     }, []);
 
     const fetchLapData = () => {
-        /*fetch("http://localhost:8081/game/create")
-            .then(response => {
-                return response.json()
-            })
-            .then(data => {
-                setLapDTO(data);
-            })*/
+        GameAPI.getLap();
     }
 
     function restart() {

@@ -3,24 +3,25 @@ import Input from "../components/Input";
 import HyperLink from "../components/HyperLink";
 import Submit from "../components/Submit";
 import {redirect} from "react-router-dom";
-import authorization from "../api/authorization";
+import {AuthorizationAPI} from "../api/AuthorizationAPI";
 
 const SignUp = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    const fetchSignUp = () => {
+    const fetchSignUp = async () => {
         if (username.length <= 6 || password.length <= 6 || password !== confirmPassword) {
             return;
         }
 
-        console.log(password, username);
-
-        if (authorization(username, password)) {
-            console.log("sign up");
-            /*redirect("/home");*/
-        }
+        AuthorizationAPI.signUp(username, password).then((result) => {
+            if (result) {
+                window.location.href = "/authorization/sign-in";
+            } else {
+                alert("this username is used!");
+            }
+        });
     }
     return (
         <div className={"form"}>

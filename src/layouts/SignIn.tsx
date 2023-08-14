@@ -3,25 +3,28 @@ import "../styles/layouts/form-authorization.scss"
 import Input from "../components/Input";
 import HyperLink from "../components/HyperLink";
 import Submit from "../components/Submit";
-import authorization from "../api/authorization";
-import {redirect} from "react-router-dom";
+import {AuthorizationAPI} from "../api/AuthorizationAPI";
 
 const SignIn = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const fetchSignUp = () => {
+    const fetchSignUp = async () => {
         if (username.length <= 6 || password.length <= 6) {
             return;
         }
 
-        if (authorization(username, password)) {
-            redirect("/home");
-        }
+        AuthorizationAPI.signIn(username, password).then((result) => {
+            if (result) {
+                window.location.href = "/home";
+            } else {
+                alert("user don`t found!");
+            }
+        });
     }
 
     return (
-        <form className={"form"}>
+        <div className={"form"}>
             <h1 className={"title"}>Sign In</h1>
 
             <Input type={"text"} name={"Username"} getterInformation={setUsername}/>
@@ -33,7 +36,7 @@ const SignIn = () => {
             </div>
 
             <Submit value={"Sig In"} onClick={fetchSignUp}/>
-        </form>
+        </div>
     );
 };
 

@@ -19,7 +19,7 @@ const Header = () => {
             </div>
 
             <div className={"profile-container"}>
-                <ButtonLink url={"/profile"} value={"profile"}/>
+                <ButtonLink url={sessionStorage.getItem('token') ? "/profile" : "/authorization/sign-in"} value={sessionStorage.getItem('token') ? "profile" : "sign in"}/>
             </div>
         </div>
     );

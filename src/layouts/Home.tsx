@@ -11,7 +11,7 @@ const Home = () => {
                 <p>You Win game: 2</p>
                 <p>Games ended in a draw: 1</p>
                 <p>You Lose game: 2</p>
-                <ButtonLink value={"Play"} url={"/game"}/>
+                <ButtonLink value={"Play"} url={sessionStorage.getItem('token') ? "/start-game" : "/authorization/sign-in"}/>
             </div>
 
             <div className={"recommendations-block"}>

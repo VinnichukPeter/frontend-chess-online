@@ -10,6 +10,7 @@ import Home from "./layouts/Home";
 import About from "./layouts/About";
 import News from "./layouts/News";
 import Game from "./layouts/Game";
+import StartGame from "./layouts/StartGame";
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                         <Route path={"home"} element={<Home/>}/>
                         <Route path={"about"} element={<About/>}/>
                         <Route path={"news"} element={<News/>}/>
+                        <Route path={"start-game"} element={<StartGame/>}/>
                         <Route path={"game"} element={<Game/>}/>
 
                         <Route path={""} element={<Navigate to={"/home"}/>}/>
