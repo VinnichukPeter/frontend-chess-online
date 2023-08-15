@@ -60,8 +60,7 @@ export class GameAPI {
             headers: {
                 'Content-Type': 'application/json',
                 'token': sessionStorage.getItem('token')
-            },
-            body: {}
+            }
         };
 
         let result: Promise<boolean> = fetch(url, requestOptionStart).then((response) => {
@@ -81,31 +80,36 @@ export class GameAPI {
     }
 
     static getLap() {
-        const url: string = "http://localhost:8080/game/create";
+        const url: string = "http://localhost:8080/game/lap";
         const requestOptionGetLap: {} = {
-            method: 'POST',
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'token': sessionStorage.getItem('token')
-            },
-            body: {}
+            }
         };
 
-        let result: Promise<LapDTO> = fetch(url, requestOptionGetLap).then((response) => {
+        let result: Promise<boolean> = fetch(url, requestOptionGetLap).then((response) => {
             if (!response.ok) {
-                return false;
+                throw new Error("Response not ok");
             }
 
             return response.json();
         }).then((lap) => {
-            if (lap) {
+            if (!lap) {
                 throw new Error("Not found lap");
             }
 
-            return lap;
+            if (lap.chessPiecesColor == null || lap.enemyName == null) {
+                throw new Error("Not actual date");
+            }
+
+            sessionStorage.setItem('color', lap.chessPiecesColor);
+            sessionStorage.setItem('enemy', lap.enemyName);
+            return true;
         }).catch((error) => {
             console.error(error.message)
-            return null;
+            return false;
         });
 
         return result;
