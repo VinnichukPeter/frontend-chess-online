@@ -6,11 +6,15 @@ import {GameAPI} from "../api/GameAPI";
 const StartGame = () => {
     const [gameTurn, setGameTurn] = useState(false);
 
-    GameAPI.queue().then((result) => {
-        if (result) {
-            setGameTurn(true);
-        }
-    });
+    useEffect(() => {
+        GameAPI.queue().then((result) => {
+            if (result) {
+                if(!gameTurn){
+                    setGameTurn(true);
+                }
+            }
+        });
+    }, []);
 
     useEffect(() => {
         if (gameTurn) {
@@ -19,7 +23,7 @@ const StartGame = () => {
                 clearInterval(interval)
             }
         }
-    }, []);
+    }, [gameTurn]);
 
     async function getStart() {
         GameAPI.start().then((result) => {

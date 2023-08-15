@@ -5,10 +5,11 @@ import Chessboard from "./Chessboard";
 import ChessboardController from "../game/logic/ChessboardController";
 import LapDTO from "../api/dto/LapDTO";
 import {GameAPI} from "../api/GameAPI";
+import pieceModel from "../game/models/PieceModel";
 
 const Game = () => {
     const [lap, setLapDTO] = useState(new LapDTO());
-    const [controller, setController] = useState(new ChessboardController(false));
+    const [controller, setController] = useState(new ChessboardController(true));
 
     useEffect(() => {
         fetchLapData();
@@ -16,7 +17,9 @@ const Game = () => {
     }, []);
 
     const fetchLapData = () => {
-        GameAPI.getLap();
+        GameAPI.getLap().then(lapDTO => {
+            setLapDTO(lapDTO);
+        });
     }
 
     function restart() {
@@ -26,12 +29,65 @@ const Game = () => {
         setController(newController);
     }
 
+    function getEnemyPiece(): pieceModel[] {
+        return controller.getInactivePieceByColor(!controller.playerColor);
+    }
+    function getAlliesPiece(): pieceModel[] {
+        return controller.getInactivePieceByColor(controller.playerColor);
+    }
+
+    function getIcon(number: number, color: boolean){
+        if (color){
+            switch (number) {
+                case 1: return <>&#9817;</>;
+                case 2: return <>&#9815;</>;
+                case 3: return <>&#9816;</>;
+                case 4: return <>&#9814;</>;
+                case 5: return <>&#9813;</>;
+                case 6: return <>&#9812;</>;
+            }
+        }else {
+            switch (number) {
+                case 1: return <>&#9823;</>;
+                case 2: return <>&#9821;</>;
+                case 3: return <>&#9822;</>;
+                case 4: return <>&#9820;</>;
+                case 5: return <>&#9819;</>;
+                case 6: return <>&#9818;</>;
+            }
+        }
+    }
+
     return (
         <div className={"game"}>
             <div className={"table"}>
-                <ChessboardSide>
-                    <Chessboard controller={controller} setController={setController}/>
-                </ChessboardSide>
+                <div className={"table-game"}>
+                    <div className={"piece-list"}>
+                        {
+                            getEnemyPiece().map((piece) =>
+                                <div key={Math.random()} className={["missing-piece", !controller.playerColor ? "red" : "blue"].join(" ")}>{getIcon(piece.type, piece.color)}</div>
+                            )
+                        }
+                    </div>
+
+                    <ChessboardSide>
+                        <Chessboard controller={controller} setController={setController}/>
+                    </ChessboardSide>
+
+                    <div className={"piece-list"}>
+                        {
+                            getAlliesPiece().map((piece) =>
+                                <div key={Math.random()} className={["missing-piece", controller.playerColor ? "red" : "blue"].join(" ")}>{getIcon(piece.type, piece.color)}</div>
+                            )
+                        }
+                    </div>
+                </div>
+
+                <div className={"table-chat"}>
+                    <div className={"chat-body"}>
+
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -26,6 +26,7 @@ const Chessboard = (props: BoardProps) => {
     function select(cell: CellModel) {
         if (selectedCell && selectedCell !== cell && controller.canMovePiece(selectedCell, cell)) {
             controller.movePiece(selectedCell, cell);
+            controller.checkInactivePiece();
             setSelectedCell(null);
 
         } else if (selectedCell && selectedCell === cell) {

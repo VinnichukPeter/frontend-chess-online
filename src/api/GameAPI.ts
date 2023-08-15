@@ -26,7 +26,7 @@ export class GameAPI {
     }
 
     static cancel() {
-        const url: string = "http://localhost:8080/game/cansel";
+        const url: string = "http://localhost:8080/game/cancel";
         const requestOptionCancel: {} = {
             method: 'POST',
             headers: {
@@ -79,7 +79,8 @@ export class GameAPI {
 
         return result;
     }
-    static getLap(){
+
+    static getLap() {
         const url: string = "http://localhost:8080/game/create";
         const requestOptionGetLap: {} = {
             method: 'POST',
@@ -97,7 +98,7 @@ export class GameAPI {
 
             return response.json();
         }).then((lap) => {
-            if(lap){
+            if (lap) {
                 throw new Error("Not found lap");
             }
 
@@ -109,6 +110,7 @@ export class GameAPI {
 
         return result;
     }
+
     static setMove() {
 
     }

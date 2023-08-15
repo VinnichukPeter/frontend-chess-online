@@ -9,7 +9,6 @@
 
   .table{
     display: flex;
-    flex-direction: column;
 
     width: 80vw;
     height: 80vh;
@@ -18,5 +17,39 @@
     background-image: url("../../assets/Board.png");
     background-size: cover;
     box-shadow: var(--fourth-color) 4px 20px 100px 20px;
+
+    .table-game{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+
+      width: calc(90vh - 12px);
+      height: calc(80vh);
+
+      background-color: chocolate;
+
+      .piece-list{
+        height: calc(80vh - 6px);
+        width: calc(5vh);
+
+        background-color: #3d3d3d;
+        border: 3px white solid;
+
+        .missing-piece{
+          font-size: 3vh;
+          text-align: center;
+        }
+
+        .red{
+          color: red;
+        }
+        .blue{
+          color: blue;
+        }
+      }
+    }
+
+
   }
 }

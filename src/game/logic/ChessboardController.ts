@@ -1,17 +1,31 @@
 import BoardModel from "../models/BoardModel";
 import CellModel from "../models/CellModel";
 import PieceModel, {TypePiece} from "../models/PieceModel";
+import piece from "../../components/Piece";
+import pieceModel from "../models/PieceModel";
 
 class ChessboardController {
     board: BoardModel;
     playerColor: boolean;
 
 
+    //#region controller
     constructor(playerColor: boolean) {
         this.board = new BoardModel();
         this.playerColor = playerColor;
     }
 
+    updateController(): ChessboardController {
+        const newController = new ChessboardController(this.playerColor);
+        newController.board.cells = this.board.cells;
+        newController.board.inactivePiece = this.board.inactivePiece;
+        newController.board.activePiece = this.board.activePiece;
+        return newController;
+    }
+
+    //#endregion
+
+    //#region init function
     setPlayerColor(playerColor: boolean) {
         this.playerColor = playerColor;
     }
@@ -36,35 +50,43 @@ class ChessboardController {
             for (let y = 0; y < 8; y++) {
                 if (x === 0) {
                     if (y === 0 || y === 7) {
-                        this.board.cells[x][y].piece = new PieceModel(false, TypePiece.Rook);
+                        this.setPiece(x, y, new PieceModel(false, TypePiece.Rook));
                     } else if (y === 1 || y === 6) {
-                        this.board.cells[x][y].piece = new PieceModel(false, TypePiece.Knight);
+                        this.setPiece(x, y, new PieceModel(false, TypePiece.Knight));
                     } else if (y === 2 || y === 5) {
-                        this.board.cells[x][y].piece = new PieceModel(false, TypePiece.Bishop);
+                        this.setPiece(x, y, new PieceModel(false, TypePiece.Bishop));
                     } else if (y === 3) {
-                        this.board.cells[x][y].piece = new PieceModel(false, TypePiece.Queen);
+                        this.setPiece(x, y, new PieceModel(false, TypePiece.Queen));
                     } else if (y === 4) {
-                        this.board.cells[x][y].piece = new PieceModel(false, TypePiece.King);
+                        this.setPiece(x, y, new PieceModel(false, TypePiece.King));
                     }
                 } else if (x === 1) {
-                    this.board.cells[x][y].piece = new PieceModel(false, TypePiece.Pawn);
+                    this.setPiece(x, y, new PieceModel(false, TypePiece.Pawn));
                 } else if (x === 6) {
-                    this.board.cells[x][y].piece = new PieceModel(true, TypePiece.Pawn);
+                    this.setPiece(x, y, new PieceModel(true, TypePiece.Pawn));
                 } else if (x === 7) {
                     if (y === 0 || y === 7) {
-                        this.board.cells[x][y].piece = new PieceModel(true, TypePiece.Rook);
+                        this.setPiece(x, y, new PieceModel(true, TypePiece.Rook));
                     } else if (y === 1 || y === 6) {
-                        this.board.cells[x][y].piece = new PieceModel(true, TypePiece.Knight);
+                        this.setPiece(x, y, new PieceModel(true, TypePiece.Knight));
                     } else if (y === 2 || y === 5) {
-                        this.board.cells[x][y].piece = new PieceModel(true, TypePiece.Bishop);
+                        this.setPiece(x, y, new PieceModel(true, TypePiece.Bishop));
                     } else if (y === 3) {
-                        this.board.cells[x][y].piece = new PieceModel(true, TypePiece.Queen);
+                        this.setPiece(x, y, new PieceModel(true, TypePiece.Queen));
                     } else if (y === 4) {
-                        this.board.cells[x][y].piece = new PieceModel(true, TypePiece.King);
+                        this.setPiece(x, y, new PieceModel(true, TypePiece.King));
                     }
                 }
             }
         }
+    }
+
+    //#endregion
+
+    //#region control board function
+    setPiece(x: number, y: number, piece: PieceModel) {
+        this.board.cells[x][y].piece = piece;
+        this.board.activePiece.push(piece);
     }
 
     highlightCells(selectedCell: CellModel | null): void {
@@ -77,10 +99,69 @@ class ChessboardController {
         }
     }
 
-    updateController(): ChessboardController {
-        const newController = new ChessboardController(this.playerColor);
-        newController.board.cells = this.board.cells;
-        return newController;
+    movePiece(selectedCell: CellModel, targetCell: CellModel): void {
+        if (selectedCell?.piece && targetCell && this.canMovePiece(selectedCell, targetCell)
+        ) {
+            if (!selectedCell.piece.isMoving && selectedCell.piece.type === TypePiece.King) {
+                const step = selectedCell.positionByY < targetCell.positionByY ? 1 : -1;
+                const positionByX = targetCell.positionByX;
+                const positionByY = targetCell.positionByY;
+
+
+                const selectedRockCell = this.getCellByPosition(positionByX, positionByY + step);
+                const targetRockCell = this.getCellByPosition(positionByX, positionByY + (step * -1));
+
+                if (selectedRockCell.piece && selectedRockCell.piece.type === TypePiece.Rook) {
+                    targetRockCell.piece = selectedRockCell.piece;
+                    selectedRockCell.piece = null;
+                }
+            }
+
+            selectedCell.piece.isMoving = true;
+            targetCell.piece = selectedCell.piece;
+            selectedCell.piece = null;
+
+        }
+    }
+
+    getCellByPosition(positionByX: number, positionByY: number): CellModel {
+        return this.board.cells[positionByX][positionByY];
+    }
+
+    getInactivePieceByColor(color: boolean): pieceModel[]{
+        return this.board.inactivePiece.filter(piece => piece.color === color)
+    }
+    //#endregion
+
+    //#region checker function
+    checkInactivePiece(): void {
+        this.board.activePiece.map((piece) => {
+            let havePiece = true;
+
+            this.board.cells.map((row) => {
+                row.map((cell) => {
+                    if(cell.piece){
+                        if(cell.piece === piece){
+                            havePiece = false;
+                        }
+                    }
+
+                    return 0;
+                })
+                return 0;
+            })
+
+            if(havePiece){
+                this.board.inactivePiece.push(piece);
+            }
+        });
+
+        this.board.inactivePiece.map((inactivePiece) => {
+            if(this.board.activePiece.includes(inactivePiece)){
+                let index = this.board.activePiece.indexOf(inactivePiece);
+                this.board.activePiece.splice(index, 1);
+            }
+        });
     }
 
     canMovePiece(selectedCell: CellModel | null, targetCell: CellModel): boolean {
@@ -154,30 +235,6 @@ class ChessboardController {
         }
 
         return false;
-    }
-
-    movePiece(selectedCell: CellModel, targetCell: CellModel): void {
-        if (selectedCell?.piece && targetCell && this.canMovePiece(selectedCell, targetCell)) {
-            if (!selectedCell.piece.isMoving && selectedCell.piece.type === TypePiece.King) {
-                const step = selectedCell.positionByY < targetCell.positionByY ? 1 : -1;
-                const positionByX = targetCell.positionByX;
-                const positionByY = targetCell.positionByY;
-
-
-                const selectedRockCell = this.getCellByPosition(positionByX, positionByY + step);
-                const targetRockCell = this.getCellByPosition(positionByX, positionByY + (step * -1));
-
-                if (selectedRockCell.piece && selectedRockCell.piece.type === TypePiece.Rook) {
-                    targetRockCell.piece = selectedRockCell.piece;
-                    selectedRockCell.piece = null;
-                }
-            }
-
-            selectedCell.piece.isMoving = true;
-            targetCell.piece = selectedCell.piece;
-            selectedCell.piece = null;
-
-        }
     }
 
     isEmptyVertical(selectedCell: CellModel, targetCell: CellModel): boolean {
@@ -256,9 +313,7 @@ class ChessboardController {
         return true;
     }
 
-    getCellByPosition(positionByX: number, positionByY: number): CellModel {
-        return this.board.cells[positionByX][positionByY];
-    }
+    //#endregion
 }
 
 export default ChessboardController;
