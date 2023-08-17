@@ -4,9 +4,6 @@ import Cell from "../components/Cell";
 import CellModel from "../game/models/CellModel";
 import ChessboardController from "../game/logic/ChessboardController";
 import {GameAPI} from "../api/GameAPI";
-import lapDTO from "../api/dto/LapDTO";
-import internal from "stream";
-import game from "./Game";
 import LapDTO from "../api/dto/LapDTO";
 
 interface BoardProps {
@@ -69,14 +66,6 @@ const Chessboard = (props: BoardProps) => {
     function updateBoard() {
         const newController = controller.updateController();
         setController(newController);
-    }
-
-    function youTurn() {
-
-    }
-
-    function enemyTurn() {
-
     }
 
     return (

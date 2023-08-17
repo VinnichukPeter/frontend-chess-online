@@ -116,7 +116,7 @@ export class GameAPI {
     }
 
     static setMove(lapDTO: lapDTO): Promise<boolean> {
-        const url: string = "http://localhost:8080/game/makemove";
+        const url: string = "http://localhost:8080/game/play/makeMove"; //makeMove
         const requestOptionMakeMove: {} = {
             method: 'POST',
             headers: {
@@ -145,7 +145,7 @@ export class GameAPI {
     }
 
     static checkMove() {
-        const url: string = "http://localhost:8080/game/check";
+        const url: string = "http://localhost:8080/game/play/checkMove";
         const requestOptionCheck: {} = {
             method: 'POST',
             headers: {
@@ -169,7 +169,7 @@ export class GameAPI {
     }
 
     static getMove() {
-        const url: string = "http://localhost:8080/game/check";
+        const url: string = "http://localhost:8080/game/play/getMove";
         const requestOptionGetMove: {} = {
             method: 'POST',
             headers: {
