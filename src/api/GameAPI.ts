@@ -115,7 +115,7 @@ export class GameAPI {
         return result;
     }
 
-    static setMove(moveFromX: number, moveFromY: number, moveToX: number, moveToY: number): Promise<boolean> {
+    static setMove(lapDTO: lapDTO): Promise<boolean> {
         const url: string = "http://localhost:8080/game/makemove";
         const requestOptionMakeMove: {} = {
             method: 'POST',
@@ -124,10 +124,7 @@ export class GameAPI {
                 'token': sessionStorage.getItem('token')
             },
             body: JSON.stringify({
-                moveFromX: moveFromX,
-                moveFromY: moveFromY,
-                moveToX: moveToX,
-                moveToY: moveToY
+                chessPieceMoveDTO: lapDTO
             })
         };
 

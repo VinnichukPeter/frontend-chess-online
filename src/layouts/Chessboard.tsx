@@ -7,6 +7,7 @@ import {GameAPI} from "../api/GameAPI";
 import lapDTO from "../api/dto/LapDTO";
 import internal from "stream";
 import game from "./Game";
+import LapDTO from "../api/dto/LapDTO";
 
 interface BoardProps {
     controller: ChessboardController;
@@ -46,10 +47,12 @@ const Chessboard = (props: BoardProps) => {
         if (turn === controller.playerColor) {
             if (selectedCell && selectedCell !== cell && controller.canMovePiece(selectedCell, cell)) {
                 controller.movePiece(selectedCell, cell);
-                GameAPI.setMove(selectedCell.positionByX, selectedCell.positionByY, cell.positionByX, cell.positionByY).then(r => {});
+                GameAPI.setMove(new LapDTO(selectedCell.positionByX, selectedCell.positionByY, cell.positionByX, cell.positionByY)).then(r => {
+                    console.log('----------', r)
+                });
                 controller.checkInactivePiece();
                 setSelectedCell(null);
-                setTurn(!controller.playerColor)
+                setTurn(!turn);
             } else if (selectedCell && selectedCell === cell) {
                 setSelectedCell(null);
             } else if (cell.piece && cell.piece.color === controller.playerColor) {
