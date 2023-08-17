@@ -4,7 +4,6 @@ import ButtonLink from "../components/ButtonLink";
 import Recommendation from "../components/Recommendation";
 
 const Home = () => {
-    sessionStorage.setItem('isCreatedLap', 'false');
     return (
         <div className={"home"}>
             <div className={"game-block"}>

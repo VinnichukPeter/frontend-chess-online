@@ -5,22 +5,17 @@ import {GameAPI} from "../api/GameAPI";
 
 const StartGame = () => {
     let flagStart = useRef(false);
-    let flagQueue = useRef(true);
     let token = sessionStorage.getItem('token');
-    //let isCreatedLapStr = sessionStorage.getItem('isCreatedLap');
-    if (token === null) { //|| isCreatedLapStr === null
+    if (token === null) {
         window.location.href = "/not-found";
     }
 
     useEffect(() => {
         const abortController = new AbortController();
 
-        if (flagQueue) {
-            flagQueue.current = false;
-            GameAPI.queue(abortController.signal).then((result) => {
-                flagStart.current = result;
-            });
-        }
+        GameAPI.queue(abortController.signal).then((result) => {
+            flagStart.current = result;
+        });
 
         if (flagStart) {
             const interval = setInterval(getStart, 1000);
