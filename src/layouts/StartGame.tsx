@@ -25,7 +25,7 @@ const StartGame = () => {
     }, []);
 
     async function getStart() {
-        GameAPI.start().then((result) => {
+        GameAPI.check().then((result) => {
             if (result) {
                 window.location.href = "/game";
             }

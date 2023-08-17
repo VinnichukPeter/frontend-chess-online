@@ -4,7 +4,10 @@ export class AuthorizationAPI {
         const requestOptionIn: {} = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({username: username, password: password})
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
         };
 
         let result: Promise<boolean> = fetch(url, requestOptionIn).then((response) => {
@@ -33,7 +36,10 @@ export class AuthorizationAPI {
         const requestOptionUp: {} = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({username: username, password: password})
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
         };
         let result: Promise<boolean> = fetch(url, requestOptionUp).then((response) => {
             if (!response.ok) {

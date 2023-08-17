@@ -124,13 +124,18 @@ class ChessboardController {
         }
     }
 
+    movePieceByIndex(moveFromX: number, moveFromY: number, moveToX: number, moveToY: number) {
+        this.movePiece(this.getCellByPosition(moveFromX, moveFromY), this.getCellByPosition(moveToX, moveToY))
+    }
+
     getCellByPosition(positionByX: number, positionByY: number): CellModel {
         return this.board.cells[positionByX][positionByY];
     }
 
-    getInactivePieceByColor(color: boolean): pieceModel[]{
+    getInactivePieceByColor(color: boolean): pieceModel[] {
         return this.board.inactivePiece.filter(piece => piece.color === color)
     }
+
     //#endregion
 
     //#region checker function
@@ -140,8 +145,8 @@ class ChessboardController {
 
             this.board.cells.map((row) => {
                 row.map((cell) => {
-                    if(cell.piece){
-                        if(cell.piece === piece){
+                    if (cell.piece) {
+                        if (cell.piece === piece) {
                             havePiece = false;
                         }
                     }
@@ -151,13 +156,13 @@ class ChessboardController {
                 return 0;
             })
 
-            if(havePiece){
+            if (havePiece) {
                 this.board.inactivePiece.push(piece);
             }
         });
 
         this.board.inactivePiece.map((inactivePiece) => {
-            if(this.board.activePiece.includes(inactivePiece)){
+            if (this.board.activePiece.includes(inactivePiece)) {
                 let index = this.board.activePiece.indexOf(inactivePiece);
                 this.board.activePiece.splice(index, 1);
             }

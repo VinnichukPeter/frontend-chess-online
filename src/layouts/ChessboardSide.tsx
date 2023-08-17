@@ -3,11 +3,14 @@ import React, {ReactNode} from 'react';
 
 interface ChessboardSideProps{
     children: ReactNode,
+    className: string
 }
 
 const ChessboardSide = (props: ChessboardSideProps) => {
+    console.log(props.className);
+
     return (
-        <div>
+        <div className={props.className}>
             <div className={"chessboard-side"}>
                 <div className={"vertical-side"}>
                     <div className={"side-top"}>

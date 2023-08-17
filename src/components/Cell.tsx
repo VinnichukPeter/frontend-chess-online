@@ -7,6 +7,7 @@ interface CellProps {
     cell: CellModel,
     selected: boolean,
     onClick: (cell: CellModel) => void;
+    className: string;
 }
 
 const Cell = (props: CellProps) => {
@@ -15,7 +16,8 @@ const Cell = (props: CellProps) => {
         <div onClick={() => {
             props.onClick(props.cell)
         }} className={["cell", props.cell.color ? "white" : "black",
-            props.selected ? "selected" : "", props.cell.available && props.cell.piece ? "enemy" : ""].join(' ')}>
+            props.selected ? "selected" : "", props.cell.available && props.cell.piece ? "enemy" : "",
+            props.className].join(' ')}>
             <Piece key={Math.random()} piece={props.cell.piece}/>
             <span className={!props.cell.piece && props.cell.available ? "available" : ""}/>
         </div>

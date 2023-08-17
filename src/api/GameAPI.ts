@@ -1,4 +1,4 @@
-import LapDTO from "./dto/LapDTO";
+import lapDTO from "./dto/LapDTO";
 
 export class GameAPI {
     static queue(): Promise<boolean> {
@@ -25,7 +25,7 @@ export class GameAPI {
         return result;
     }
 
-    static cancel() {
+    static cancel(): Promise<boolean> {
         const url: string = "http://localhost:8080/game/cancel";
         const requestOptionCancel: {} = {
             method: 'POST',
@@ -53,9 +53,9 @@ export class GameAPI {
         return result;
     }
 
-    static start() {
+    static check(): Promise<boolean> {
         const url: string = "http://localhost:8080/game/check";
-        const requestOptionStart: {} = {
+        const requestOptionCheck: {} = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ export class GameAPI {
             }
         };
 
-        let result: Promise<boolean> = fetch(url, requestOptionStart).then((response) => {
+        let result: Promise<boolean> = fetch(url, requestOptionCheck).then((response) => {
             if (!response.ok) {
                 return false;
             }
@@ -79,7 +79,7 @@ export class GameAPI {
         return result;
     }
 
-    static getLap() {
+    static getLap(): Promise<boolean> {
         const url: string = "http://localhost:8080/game/lap";
         const requestOptionGetLap: {} = {
             method: 'GET',
@@ -115,11 +115,92 @@ export class GameAPI {
         return result;
     }
 
-    static setMove() {
+    static setMove(moveFromX: number, moveFromY: number, moveToX: number, moveToY: number): Promise<boolean> {
+        const url: string = "http://localhost:8080/game/makemove";
+        const requestOptionMakeMove: {} = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'token': sessionStorage.getItem('token')
+            },
+            body: JSON.stringify({
+                moveFromX: moveFromX,
+                moveFromY: moveFromY,
+                moveToX: moveToX,
+                moveToY: moveToY
+            })
+        };
 
+        let result: Promise<boolean> = fetch(url, requestOptionMakeMove).then((response) => {
+            if (!response.ok) {
+                return false;
+            }
+
+            return response.json();
+        }).then((result) => {
+            return result;
+        }).catch((error) => {
+            console.error(error.message)
+            return false;
+        });
+
+        return result;
+    }
+
+    static checkMove() {
+        const url: string = "http://localhost:8080/game/check";
+        const requestOptionCheck: {} = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'token': sessionStorage.getItem('token')
+            }
+        };
+
+        let result: Promise<boolean> = fetch(url, requestOptionCheck).then((response) => {
+            if (!response.ok) {
+                throw new Error("Response not ok");
+            }
+
+            return true;
+        }).catch((error) => {
+            console.error(error);
+            return false;
+        })
+
+        return result;
     }
 
     static getMove() {
+        const url: string = "http://localhost:8080/game/check";
+        const requestOptionGetMove: {} = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'token': sessionStorage.getItem('token')
+            }
+        };
 
+        let result = fetch(url, requestOptionGetMove).then((response) => {
+            if (!response.ok) {
+                throw new Error("Response not ok");
+            }
+            return response.json();
+        }).then((data) => {
+            if (data === null) {
+                throw new Error("Data is null");
+            }
+            if (!data.moveFromX || !data.moveFromY || !data.moveToX || !data.moveToY) {
+                throw new Error("Fields is null");
+            }
+
+            return new lapDTO(data.moveFromX, data.moveFromY, data.moveToX, data.moveToY);
+        }).catch((error) => {
+            console.error(error);
+
+            return null;
+        })
+
+        return result;
     }
 }
