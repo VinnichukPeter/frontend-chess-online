@@ -1,14 +1,15 @@
 import lapDTO from "./dto/LapDTO";
 
 export class GameAPI {
-    static queue(): Promise<boolean> {
+    static queue(abortSignal: AbortSignal): Promise<boolean> {
         const url: string = "http://localhost:8080/game/queue";
         const requestOptionTurn: {} = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'token': sessionStorage.getItem('token')
-            }
+            },
+            signal: abortSignal,
         };
 
         let result: Promise<boolean> = fetch(url, requestOptionTurn).then((response) => {
@@ -124,7 +125,10 @@ export class GameAPI {
                 'token': sessionStorage.getItem('token')
             },
             body: JSON.stringify({
-                chessPieceMoveDTO: lapDTO
+                moveFromX: lapDTO.moveFromX,
+                moveFromY: lapDTO.moveFromY,
+                moveToX: lapDTO.moveToX,
+                moveToY: lapDTO.moveToY
             })
         };
 

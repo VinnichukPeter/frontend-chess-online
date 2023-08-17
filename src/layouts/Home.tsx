@@ -4,6 +4,7 @@ import ButtonLink from "../components/ButtonLink";
 import Recommendation from "../components/Recommendation";
 
 const Home = () => {
+    sessionStorage.setItem('isCreatedLap', 'false');
     return (
         <div className={"home"}>
             <div className={"game-block"}>
@@ -11,7 +12,8 @@ const Home = () => {
                 <p>You Win game: 2</p>
                 <p>Games ended in a draw: 1</p>
                 <p>You Lose game: 2</p>
-                <ButtonLink value={"Play"} url={sessionStorage.getItem('token') ? "/start-game" : "/authorization/sign-in"}/>
+                <ButtonLink value={"Play"}
+                            url={sessionStorage.getItem('token') ? "/start-game" : "/authorization/sign-in"}/>
             </div>
 
             <div className={"recommendations-block"}>

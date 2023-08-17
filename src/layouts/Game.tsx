@@ -7,7 +7,12 @@ import {GameAPI} from "../api/GameAPI";
 import pieceModel from "../game/models/PieceModel";
 
 const Game = () => {
-    const [controller, setController] = useState(new ChessboardController(true));
+    let token = sessionStorage.getItem('token');
+    if (token === null){
+        window.location.href = "/not-found";
+    }
+
+        const [controller, setController] = useState(new ChessboardController(true));
 
     useEffect(() => {
         fetchLapData();
@@ -88,7 +93,8 @@ const Game = () => {
                     </div>
 
                     <ChessboardSide className={controller.playerColor ? "" : "reverse"}>
-                        <Chessboard className={controller.playerColor ? "" : "reverse"} controller={controller} setController={setController}/>
+                        <Chessboard className={controller.playerColor ? "" : "reverse"} controller={controller}
+                                    setController={setController}/>
                     </ChessboardSide>
 
                     <div className={"piece-list"}>

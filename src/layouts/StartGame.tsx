@@ -1,17 +1,23 @@
 import "../styles/layouts/start-game.scss"
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import Submit from "../components/Submit";
 import {GameAPI} from "../api/GameAPI";
 
 const StartGame = () => {
     let flagStart = useRef(false);
     let flagQueue = useRef(true);
-
+    let token = sessionStorage.getItem('token');
+    //let isCreatedLapStr = sessionStorage.getItem('isCreatedLap');
+    if (token === null) { //|| isCreatedLapStr === null
+        window.location.href = "/not-found";
+    }
 
     useEffect(() => {
+        const abortController = new AbortController();
+
         if (flagQueue) {
             flagQueue.current = false;
-            GameAPI.queue().then((result) => {
+            GameAPI.queue(abortController.signal).then((result) => {
                 flagStart.current = result;
             });
         }
@@ -21,6 +27,10 @@ const StartGame = () => {
             return () => {
                 clearInterval(interval)
             }
+        }
+
+        return () => {
+            abortController.abort();
         }
     }, []);
 
@@ -33,10 +43,7 @@ const StartGame = () => {
     }
 
     function cancel() {
-        console.log("======cansel");
         GameAPI.cancel().then((result) => {
-            console.log("======result");
-
             if (result) {
                 window.location.href = "/home";
             }
