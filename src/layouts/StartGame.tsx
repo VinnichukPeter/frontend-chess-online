@@ -4,6 +4,7 @@ import Submit from "../components/Submit";
 import {GameAPI} from "../api/GameAPI";
 
 const StartGame = () => {
+    let flagQueueSecond = useRef(true);
     let flagStart = useRef(false);
     let token = sessionStorage.getItem('token');
     if (token === null) {
@@ -11,21 +12,19 @@ const StartGame = () => {
     }
 
     useEffect(() => {
-        const abortController = new AbortController();
+        flagQueueSecond.current = !flagQueueSecond.current;
 
-        GameAPI.queue(abortController.signal).then((result) => {
-            flagStart.current = result;
-        });
+        if (flagQueueSecond.current) {
+            const abortController = new AbortController();
 
-        if (flagStart) {
-            const interval = setInterval(getStart, 1000);
-            return () => {
-                clearInterval(interval)
-            }
-        }
-
-        return () => {
-            abortController.abort();
+            GameAPI.queue(abortController.signal).then((result) => {
+                if (result) {
+                    const interval = setInterval(getStart, 1000);
+                    return () => {
+                        clearInterval(interval)
+                    }
+                }
+            });
         }
     }, []);
 

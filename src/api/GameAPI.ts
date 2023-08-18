@@ -9,7 +9,7 @@ export class GameAPI {
                 'Content-Type': 'application/json',
                 'token': sessionStorage.getItem('token')
             },
-            signal: abortSignal,
+            abortSignal,
         };
 
         let result: Promise<boolean> = fetch(url, requestOptionTurn).then((response) => {
