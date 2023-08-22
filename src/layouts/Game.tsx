@@ -5,14 +5,15 @@ import Chessboard from "./Chessboard";
 import ChessboardController from "../game/logic/ChessboardController";
 import {GameAPI} from "../api/GameAPI";
 import pieceModel from "../game/models/PieceModel";
+import Chat from "./Chat";
 
 const Game = () => {
     let token = sessionStorage.getItem('token');
-    if (token === null){
+    if (token === null) {
         window.location.href = "/not-found";
     }
 
-        const [controller, setController] = useState(new ChessboardController(true));
+    const [controller, setController] = useState(new ChessboardController(true));
 
     useEffect(() => {
         fetchLapData();
@@ -29,12 +30,16 @@ const Game = () => {
         let regexPattern = new RegExp("true");
         let colorStr = sessionStorage.getItem('color');
         let color: boolean = regexPattern.test(!colorStr ? "" : colorStr);
-        console.log(color, sessionStorage.getItem('color'));
 
-        const newController = new ChessboardController(color);
-        newController.initCells();
-        newController.startPositionPiece();
-        setController(newController);
+        if (!controller.isCreated) {
+            const newController = new ChessboardController(color);
+            newController.initCells();
+            newController.startPositionPiece();
+            setController(newController);
+        } else {
+            const newController = controller.updateController();
+            setController(newController);
+        }
     }
 
     function getEnemyPiece(): pieceModel[] {
@@ -108,9 +113,7 @@ const Game = () => {
                 </div>
 
                 <div className={"table-chat"}>
-                    <div className={"chat-body"}>
-
-                    </div>
+                    <Chat playerColor={controller.playerColor}/>
                 </div>
             </div>
         </div>

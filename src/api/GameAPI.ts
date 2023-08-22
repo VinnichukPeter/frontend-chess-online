@@ -125,21 +125,19 @@ export class GameAPI {
                 'token': sessionStorage.getItem('token')
             },
             body: JSON.stringify({
-                moveFromX: lapDTO.moveFromX,
-                moveFromY: lapDTO.moveFromY,
-                moveToX: lapDTO.moveToX,
-                moveToY: lapDTO.moveToY
+                moveFromX: lapDTO.moveFromX.toString(),
+                moveFromY: lapDTO.moveFromY.toString(),
+                moveToX: lapDTO.moveToX.toString(),
+                moveToY: lapDTO.moveToY.toString()
             })
         };
 
         let result: Promise<boolean> = fetch(url, requestOptionMakeMove).then((response) => {
             if (!response.ok) {
-                return false;
+                throw new Error("Response not ok");
             }
 
-            return response.json();
-        }).then((result) => {
-            return result;
+            return true;
         }).catch((error) => {
             console.error(error.message)
             return false;
@@ -151,7 +149,7 @@ export class GameAPI {
     static checkMove() {
         const url: string = "http://localhost:8080/game/play/checkMove";
         const requestOptionCheck: {} = {
-            method: 'POST',
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'token': sessionStorage.getItem('token')
@@ -163,7 +161,10 @@ export class GameAPI {
                 throw new Error("Response not ok");
             }
 
-            return true;
+            return response.json();
+        }).then((result) => {
+
+            return result;
         }).catch((error) => {
             console.error(error);
             return false;
@@ -175,7 +176,7 @@ export class GameAPI {
     static getMove() {
         const url: string = "http://localhost:8080/game/play/getMove";
         const requestOptionGetMove: {} = {
-            method: 'POST',
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'token': sessionStorage.getItem('token')
@@ -190,9 +191,6 @@ export class GameAPI {
         }).then((data) => {
             if (data === null) {
                 throw new Error("Data is null");
-            }
-            if (!data.moveFromX || !data.moveFromY || !data.moveToX || !data.moveToY) {
-                throw new Error("Fields is null");
             }
 
             return new lapDTO(data.moveFromX, data.moveFromY, data.moveToX, data.moveToY);

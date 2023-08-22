@@ -30,10 +30,12 @@ const Chessboard = (props: BoardProps) => {
                             if (lapDTO !== null) {
                                 controller.movePieceByIndex(lapDTO.moveFromX, lapDTO.moveFromY, lapDTO.moveToX, lapDTO.moveToY);
 
+                                setTurn(!turn);
+                                controller.checkInactivePiece();
+
                                 return clearInterval(interval);
                             }
                         })
-                        setTurn(!turn);
                     }
                 });
             }, 1000)
@@ -44,7 +46,10 @@ const Chessboard = (props: BoardProps) => {
         if (turn === controller.playerColor) {
             if (selectedCell && selectedCell !== cell && controller.canMovePiece(selectedCell, cell)) {
                 controller.movePiece(selectedCell, cell);
-                GameAPI.setMove(new LapDTO(selectedCell.positionByX, selectedCell.positionByY, cell.positionByX, cell.positionByY)).then(r => {
+
+                let lapDto: LapDTO = new LapDTO(selectedCell.positionByX, selectedCell.positionByY, cell.positionByX, cell.positionByY);
+                console.log(lapDto);
+                GameAPI.setMove(lapDto).then(r => {
                     console.log('----------', r)
                 });
                 controller.checkInactivePiece();

@@ -7,12 +7,14 @@ import pieceModel from "../models/PieceModel";
 class ChessboardController {
     board: BoardModel;
     playerColor: boolean;
+    isCreated: boolean;
 
 
     //#region controller
     constructor(playerColor: boolean) {
         this.board = new BoardModel();
         this.playerColor = playerColor;
+        this.isCreated = false;
     }
 
     updateController(): ChessboardController {
@@ -31,6 +33,8 @@ class ChessboardController {
     }
 
     initCells(): void {
+        this.isCreated = true;
+
         for (let x = 0; x < 8; x++) {
             const row: CellModel[] = [];
 
